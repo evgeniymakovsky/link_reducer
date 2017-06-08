@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import java.util.List;
+
+@Service("LinkService")
 @Transactional
 public class LinkServiceImpl implements LinkService {
 
     @Autowired
-    LinkRepository repository;
+    private LinkRepository repository;
+
+    public List<Link> findAll() {
+        return repository.findAll();
+    }
 
     public void saveLink(Link link) {
         repository.saveAndFlush(link);

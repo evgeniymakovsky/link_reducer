@@ -2,6 +2,7 @@ package com.evgeniymakovsky.service;
 
 import com.evgeniymakovsky.entity.Link;
 import com.evgeniymakovsky.entity.User;
+
 import java.util.List;
 
 import com.evgeniymakovsky.repository.UserRepository;
@@ -9,15 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("UserService")
 @Transactional
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository repository;
+    private UserRepository repository;
 
     public void saveUser(User user) {
-        if(user==null){
+        if (user == null) {
             throw new IllegalStateException("User should not be null!");
         }
         repository.saveAndFlush(user);

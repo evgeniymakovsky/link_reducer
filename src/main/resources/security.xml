@@ -1,0 +1,53 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/views/userpage.xhtml" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/views/welcome.xhtml" access="hasRole('ROLE_USER')"/>
+        <form-login login-page="/hello.xhtml" default-target-url="/views/welcome.xhtml"
+                    authentication-failure-url="/hello.xhtml?status=error"
+                    username-parameter="username"
+                    password-parameter="password"
+                    login-processing-url="/static/j_spring_security_check"/>
+        <logout logout-success-url="/hello.xhtml?status=logout"
+        logout-url="/static/j_spring_security_logout"/>
+        <csrf disabled="true"/>
+    </http>
+
+
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <beans:property name="url" value="jdbc:mysql://localhost:3306/link_reducer?characterEncoding=UTF-8"/>
+        <beans:property name="username" value="root"/>
+        <beans:property name="password" value="13584213"/>
+    </beans:bean>
+
+    <authentication-manager>
+
+        <authentication-provider>
+            <!--<password-encoder hash="bcrypt" />-->
+            <jdbc-user-service data-source-ref="dataSource"
+
+                               users-by-username-query="select username,password, enabled from users where username=?"
+                               authorities-by-username-query="select username, role from roles where username =?"/>
+        </authentication-provider>
+
+    </authentication-manager>
+
+
+    <!--<authentication-manager>-->
+    <!--<authentication-provider>-->
+    <!--<user-service>-->
+    <!--<user name="admin" password="pass" authorities="ROLE_ADMIN,ROLE_USER" />-->
+    <!--<user name="user1" password="1111" authorities="ROLE_USER" />-->
+    <!--<user name="user2" password="2222" disabled="true" authorities="ROLE_USER" />-->
+    <!--</user-service>-->
+    <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
+
+</beans:beans>
