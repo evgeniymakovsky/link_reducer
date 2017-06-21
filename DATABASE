@@ -1,0 +1,20 @@
+CREATE TABLE `link_reducer`.`users` (
+  `username` VARCHAR(128) NOT NULL,
+  `email` VARCHAR(128) NOT NULL,
+  `password` VARCHAR(128) NOT NULL,
+  `enabled` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`username`));
+
+CREATE TABLE `link_reducer`.`roles` (
+  `role_id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(128) NOT NULL,
+  `role` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`role_id`));
+
+CREATE TABLE `link_reducer`.`links` (
+  `link_id` INT NOT NULL AUTO_INCREMENT,
+  `shorted` VARCHAR(128) NOT NULL,
+  `original` VARCHAR(8192) NOT NULL,
+  `username` VARCHAR(128) NOT NULL,
+  `invocations` INT NOT NULL,
+  PRIMARY KEY (`link_id`));
