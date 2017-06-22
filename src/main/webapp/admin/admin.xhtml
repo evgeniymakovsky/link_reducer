@@ -3,21 +3,22 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:head>
-    <title>Sign Up</title>
+    <title>User statistics</title>
     <!-- for-mobile-apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <h:outputScript type="application/x-javascript"> addEventListener("load", function () {
         setTimeout(hideURLbar, 0);
-    }, false);
-    function hideURLbar() {
+        }, false);
+        function hideURLbar() {
         window.scrollTo(0, 1);
-    } </h:outputScript>
+        } </h:outputScript>
 
     <h:outputStylesheet library="css" name="style.css"/>
     <h:outputStylesheet name="css/bootstrap.css"/>
@@ -27,6 +28,7 @@
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
           rel='stylesheet' type='text/css'/>
 </h:head>
+
 <h:body>
     <!-- banner1 -->
     <div class="banner1">
@@ -40,17 +42,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <h1><a class="navbar-brand" href="index.html">Link Reducer</a></h1>
+                    <h1><a class="navbar-brand" href="/views/welcome.xhtml">Link Reducer</a></h1>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                     <nav class="cl-effect-13" id="cl-effect-13">
                         <ul class="nav navbar-nav">
-                            <li><a href="login.xhtml">Log in</a></li>
-                            <li class="active"><a href="signup.xhtml">Sign up</a></li>
-                            <li><a href="forget.xhtml">Forget password</a></li>
+                            <sec:authorize ifAllGranted="ROLE_ADMIN">
+                                <li class="active"><a href="/admin/admin.xhtml">Admin</a></li>
+                            </sec:authorize>
+                            <li><a href="/views/statistics.xhtml">Statistics</a></li>
+                            <li><a href="/views/settings.xhtml">Settings</a></li>
+                            <li><a href="/views/about.xhtml">About</a></li>
+                            <li><a href="/static/j_spring_security_logout">Log out</a></li>
                         </ul>
-
                     </nav>
                 </div>
             </nav>
@@ -60,63 +65,39 @@
 
     <script src="js/bootstrap.js"></script>
     <!-- //for bootstrap working -->
-    <div class="agileits-con">
+    <div class="typo">
         <div class="container">
-            <h2 class="w3ls_head">Sign Up</h2>
-            <div class="col-md-8 contact-grids1 animated wow fadeInRight" data-wow-delay=".5s">
-                <h:form>
-                    <div class="contact-form2">
-                        <h4>Username</h4>
+            <h3 class="w3ls_head">Typography</h3>
+            <div class="grid_3 grid_4 w3layouts">
+                <h3 class="hdg">Users</h3>
+                <div class="bs-example">
+                    <h:form>
+                        <h:dataTable id="tab" value="#{adminController.users}" var="user"
+                                     styleClass="table">
 
-                        <h:inputText id="username" value="${registrationController.username}">
-                            <f:validator validatorId="UsernameValidator"/>
-                        </h:inputText><br/><h3><h:message for="username" style="color:red"/></h3>
+                            <h:column >
+                                <f:facet name="header">User name</f:facet>
+                                <div align="center">localhost:8085/#{user.name}</div>
+                            </h:column>
 
-                    </div>
-                    <div class="contact-form2">
-                        <h4>Email</h4>
+                            <h:column>
+                                <f:facet name="header">Email</f:facet>
+                                <div align="center">#{user.email}</div>
+                            </h:column>
 
-                        <h:inputText id="email" value="${registrationController.email}">
-                            <f:validator validatorId="EmailValidator"/>
-                        </h:inputText>
-                        <br/><h3><h:message for="email" style="color:red"/></h3>
-                    </div>
-                    <div class="contact-form2">
-                        <h4>Password (6-16 letters and/or digits)</h4>
+                            <h:column>
+                                <f:facet name="header">Action</f:facet>
+                                <div align="center"><h:commandButton value="Delete" action="#{adminController.deleteUser(user)}"
+                                                 update="tab"/></div>
+                            </h:column>
 
-                        <h:inputSecret id="rawPassword" value="${registrationController.rawPassword}">
-                            <f:validator validatorId="PasswordValidator"/>
-                        </h:inputSecret>
-                        <br/><h3><h:message for="rawPassword" style="color:red"/></h3>
-
-                    </div>
-                    <div class="contact-form2">
-                        <h4>Confirm password</h4>
-
-                        <h:inputSecret id="verifyPassword" value="${registrationController.verifyPassword}">
-                            <f:validator validatorId="PasswordValidator"/>
-                        </h:inputSecret>
-                        <br/><h3><h:message for="verifyPassword" style="color:red"/></h3>
-
-                    </div>
-
-                    <h:commandButton action="${registrationController.registerUser()}" value="Register"/>
-                </h:form>
-                <h3><c:if test="${param.status=='userExists'}">
-                    <label style="color: red">User with this name has already exists!</label>
-                </c:if>
-                    <c:if test="${param.status=='verifyError'}">
-                        <label style="color: red">Password don't verify!</label>
-                    </c:if>
-                    <c:if test="${param.status=='nameError'}">
-                        <label style="color: red">Please, enter username!</label>
-                    </c:if>
-                    <c:if test="${param.status=='success'}">
-                        <label style="color: green">You has been successfully registered!</label>
-                    </c:if></h3>
+                        </h:dataTable>
+                    </h:form>
+                </div>
             </div>
         </div>
     </div>
+
     <div class="footer-top">
         <div class="container">
             <div class="col-md-3 w3ls-footer-top">
@@ -131,11 +112,8 @@
             <div class="col-md-4 wthree-footer-top">
                 <h3>SUPPORT</h3>
                 <ul>
-                    <li><span class="glyphicon glyphicon-home"
-                              aria-hidden="true"></span> Limozha Street, Grodno City, Belarus.
-                    </li>
-                    <li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a
-                            href="mailto:evgeniymakovsky@gmail.com">evgeniymakovsky@gmail.com</a></li>
+                    <li><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Limozha Street, Grodno City, Belarus.</li>
+                    <li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a href="mailto:evgeniymakovsky@gmail.com">evgeniymakovsky@gmail.com</a></li>
                     <li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> +375 (29) 585 66 06</li>
                 </ul>
             </div>
@@ -144,8 +122,7 @@
                 <p>If you want to get our news, please enter your email below and we will send you newsletter!</p>
 
                 <h:form method="post" class="newsletter">
-                    <h:inputText class="email" type="email" placeholder="Your email..."
-                                 value="${newsletterController.enteredEmail}"/>
+                    <h:inputText class="email" type="email" placeholder="Your email..." value="${newsletterController.enteredEmail}"/>
                     <h:commandButton class="submit" value="GO" action="${newsletterController.sendNewsletter()}"/>
                 </h:form>
             </div>
@@ -156,8 +133,7 @@
                 </div>
                 <div class="agileits-social">
                     <ul>
-                        <li><a href="https://www.facebook.com/evgeniy.makovsky.10"><i class="fa fa-facebook"></i></a>
-                        </li>
+                        <li><a href="https://www.facebook.com/evgeniy.makovsky.10"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="https://vk.com/evgeniymakovsky"><i class="fa fa-vk"></i></a></li>
                     </ul>
                 </div>

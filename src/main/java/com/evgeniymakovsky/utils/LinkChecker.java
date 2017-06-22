@@ -1,6 +1,8 @@
 package com.evgeniymakovsky.utils;
 
+import com.evgeniymakovsky.controller.HomeController;
 import com.evgeniymakovsky.entity.Link;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,21 +13,26 @@ import java.util.regex.Pattern;
  */
 public class LinkChecker {
 
-    public static boolean checkShortedLink(List<Link> links, String shortedLink) {
+    final static Logger logger = Logger.getLogger(LinkChecker.class);
+
+    public static boolean checkIfShortedLinkExists(List<Link> links, String shortedLink) {
+        logger.info("Start checkIfShortedLinkExists(List<Link> links, String shortedLink)");
         for (Link link : links) {
             if (link.getShorted().equals(shortedLink)) return true;
         }
         return false;
     }
 
-    public static String checkOriginalLink(List<Link> links, String originalLink) {
+    public static String checkIfOriginalLinkExists(List<Link> links, String originalLink) {
+        logger.info("Start checkIfOriginalLinkExists(List<Link> links, String originalLink)");
         for (Link link : links) {
             if (link.getOriginal().equals(originalLink)) return link.getShorted();
         }
         return null;
     }
 
-    public static boolean checkLinkProtocol(String originalLink) {
+    public static boolean checkIfLinkProtocolExists(String originalLink) {
+        logger.info("Start checkIfLinkProtocolExists(String originalLink)");
         Pattern pattern = Pattern.compile("^(http|https)://.*$");
         Matcher matcher = pattern.matcher(originalLink);
         return matcher.matches();

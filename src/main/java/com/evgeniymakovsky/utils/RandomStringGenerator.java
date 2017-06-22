@@ -1,11 +1,16 @@
 package com.evgeniymakovsky.utils;
 
+import com.evgeniymakovsky.controller.HomeController;
+import org.apache.log4j.Logger;
+
 import java.util.Random;
 
 public class RandomStringGenerator {
 
-    public static String getRandomString(int stringLength) {
+    final static Logger logger = Logger.getLogger(RandomStringGenerator.class);
 
+    public static String getRandomString(int stringLength) {
+        logger.info("Start getRandomString(int stringLength)");
         StringBuffer stringBuffer = new StringBuffer(stringLength);
 
         while (true) {
@@ -16,7 +21,7 @@ public class RandomStringGenerator {
             if (stringBuffer.length() >= stringLength) break;
             stringBuffer.append(c);
         }
-
+        logger.info("String " + stringBuffer.toString() + " successfully generated!");
         return stringBuffer.toString();
     }
 
@@ -32,7 +37,7 @@ public class RandomStringGenerator {
 
     public static void main(String[] args) {
         for (int i = 0; i < 1000; i++) {
-            System.out.println(getRandomString(8));
+            System.out.println(getRandomString(5));
         }
     }
 }

@@ -5,6 +5,7 @@ import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.LinkService;
 import com.evgeniymakovsky.service.UserService;
 import com.evgeniymakovsky.utils.LinkChecker;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ import java.util.List;
 @Component
 public class WelcomeController {
 
+    final static Logger logger = Logger.getLogger(WelcomeController.class);
+
     @Autowired
     @ManagedProperty("#{UserService}")
     private UserService userService;
@@ -36,23 +39,26 @@ public class WelcomeController {
     private String reducedURL;
 
     public String generateReducedURL() {
+        logger.info("Start generateReducedURL()");
         List<Link> links = linkService.findAll();
 
-        if(!LinkChecker.checkLinkProtocol(originalURL)){
-            originalURL = "http://"+originalURL;
+        if (!LinkChecker.checkIfLinkProtocolExists(originalURL)) {
+            originalURL = "http://" + originalURL;
+            logger.info("Add HTTP protocol to link " + originalURL);
         }
 
-        String existedShortedLink = LinkChecker.checkOriginalLink(links, originalURL);
+        String existedShortedLink = LinkChecker.checkIfOriginalLinkExists(links, originalURL);
 
         if (existedShortedLink != null) {
+            logger.info("Link " + existedShortedLink + " exists in database!");
             reducedURL = "localhost:8085/" + existedShortedLink;
             return reducedURL;
         }
 
         String uri = RandomStringGenerator.getRandomString(6);
 
-        while (LinkChecker.checkShortedLink(links, uri)) {
-            System.out.println("Shorted link " + uri + " has already exists!");
+        while (LinkChecker.checkIfShortedLinkExists(links, uri)) {
+            logger.warn("Shorted link " + uri + " has already exists!");
             uri = RandomStringGenerator.getRandomString(6);
         }
 
@@ -63,6 +69,7 @@ public class WelcomeController {
         link.setInvocations(0);
         link.setUser(user);
         linkService.saveLink(link);
+        logger.info("Reduced link " + reducedURL + " has been saved!");
         return reducedURL;
     }
 
@@ -85,6 +92,7 @@ public class WelcomeController {
     public String getUsername() {
         username = SecurityContextHolder.getContext().getAuthentication().getName();
         user = userService.findByUserName(username);
+        logger.info("User " + username);
         return username;
     }
 

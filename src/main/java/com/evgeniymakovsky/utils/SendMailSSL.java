@@ -1,5 +1,8 @@
 package com.evgeniymakovsky.utils;
 
+import com.evgeniymakovsky.controller.HomeController;
+import org.apache.log4j.Logger;
+
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -11,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 public class SendMailSSL {
 
+    final static Logger logger = Logger.getLogger(SendMailSSL.class);
+
     private String appMail = "evgeniymakovsky@gmail.com";
     private String appMailPassword = "13584213qwe";
     private String recipientMail;
@@ -18,6 +23,7 @@ public class SendMailSSL {
     private String textMail;
 
     public void sendEmail() {
+        logger.info("Start sendEmail()");
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -44,7 +50,7 @@ public class SendMailSSL {
 
             Transport.send(message);
 
-            System.out.println("Email to " + recipientMail + " has been successfully sent!");
+            logger.info("Email to " + recipientMail + " has been successfully sent!");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
