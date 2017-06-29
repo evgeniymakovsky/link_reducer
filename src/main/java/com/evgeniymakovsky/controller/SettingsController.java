@@ -12,6 +12,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
+/**
+ * Class SettingsController is the main controller for views/settings.xhtml.
+ */
+
 @ManagedBean
 @SessionScoped
 @Component
@@ -31,6 +35,12 @@ public class SettingsController {
     private String newPassword;
     private String confirmNewPassword;
 
+    /**
+     * Method changePassword invokes when user change his own password
+     *
+     * @return status=changed if password changed, status=notMatch if user fails verification,
+     * status=error if user entered wrong actual password.
+     */
     public String changePassword() {
         logger.info("Start changePassword()");
         if (encoder.matches(oldPassword, user.getPassword())) {

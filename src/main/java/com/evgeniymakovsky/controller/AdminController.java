@@ -12,7 +12,7 @@ import javax.faces.bean.SessionScoped;
 import java.util.List;
 
 /**
- * Created by mak on 21.6.17.
+ * Class AdminController is managed bean for /admin/admin.xhtml view.
  */
 @ManagedBean
 @SessionScoped

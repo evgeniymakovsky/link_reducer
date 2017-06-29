@@ -1,7 +1,5 @@
 package com.evgeniymakovsky.utils;
 
-import com.evgeniymakovsky.controller.HomeController;
-import com.evgeniymakovsky.entity.Link;
 import com.evgeniymakovsky.entity.User;
 import org.apache.log4j.Logger;
 

@@ -18,6 +18,9 @@ import com.evgeniymakovsky.utils.RandomStringGenerator;
 
 import java.util.List;
 
+/**
+ * Class WelcomeController is the main controller for views/welcome.xhtml.
+ */
 @ManagedBean
 @SessionScoped
 @Component
@@ -38,6 +41,11 @@ public class WelcomeController {
     private String originalURL;
     private String reducedURL;
 
+    /**
+     * Method generateReducedURL generate reduced link and save it in database
+     *
+     * @return URL with reduced link
+     */
     public String generateReducedURL() {
         logger.info("Start generateReducedURL()");
         List<Link> links = linkService.findAll();

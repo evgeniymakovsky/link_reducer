@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+/**
+ * Class RedirectController is the main controller for redirection by shorted links.
+ */
 @Controller
 public class RedirectController {
 
@@ -19,6 +22,11 @@ public class RedirectController {
     @Autowired
     private LinkService linkService;
 
+    /**
+     * Method redirect user from shorted link to original link that exists in database.
+     * @param id - shorted link
+     * @return to original link
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String redirection(@PathVariable String id) {
         logger.info("Request: " + id);
@@ -34,11 +42,6 @@ public class RedirectController {
         logger.info("Redirect to " + redirectToURL);
         return "redirect:" + redirectToURL;
     }
-
-//    @RequestMapping(value = "/j_spring_security_check", method = RequestMethod.POST)
-//    public String security() {
-//        return "redirect:userpage.xhtml";
-//    }
 
     public LinkService getLinkService() {
         return linkService;

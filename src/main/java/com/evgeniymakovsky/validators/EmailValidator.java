@@ -10,6 +10,9 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Validator for email
+ */
 @FacesValidator("EmailValidator")
 public class EmailValidator implements Validator {
 

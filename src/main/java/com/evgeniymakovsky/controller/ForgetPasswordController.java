@@ -12,6 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+/**
+ * Class ForgetPasswordController is managed bean for forget.xhtml view.
+ */
 @ManagedBean
 @ViewScoped
 @Component
@@ -25,6 +28,13 @@ public class ForgetPasswordController {
     private String email;
     private User user;
 
+    /**
+     * Method sendPassword() sends password to registered users email if user forget password.
+     *
+     * @return status=usernameError if user don't enter your name, status=noUser if user not exists
+     * in database, status=noEmail if entered email don't match with users email, status=emailError
+     * if user don't enter your email and status=success if email successfully sent.
+     */
     public String sendPassword() {
         if (username != null) {
             user = userService.findByUserName(username);

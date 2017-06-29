@@ -16,6 +16,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
 
+/**
+ * Class RegistrationController is the main controller for signup.xhtml.
+ */
 @ManagedBean
 @SessionScoped
 @Component
@@ -37,28 +40,35 @@ public class RegistrationController {
     private String encryptedPassword;
     private String verifyPassword;
 
+    /**
+     * Method registerUser invokes when user register himself in Link Reducer
+     *
+     * @return status=nameError if user don't enter your name, status=userExists if user with same name
+     * has already exists, status=verifyError if user don't enter password or failed verification of own
+     * password, status=success if user successfully registered.
+     */
     public String registerUser() {
         logger.info("Start registerUser()");
         User user = new User();
         List<User> users = userService.userList();
-        if (username.equals("")||username==null) return "signup.xhtml?status=nameError&faces-redirect=true";
+        if (username.equals("") || username == null) return "signup.xhtml?status=nameError&faces-redirect=true";
         if (!UsernameChecker.checkIfUsernameExists(users, username)) {
             user.setName(username);
             logger.info("Set name " + username);
-        } else{
+        } else {
             logger.warn("User with username " + username + " exists!");
             return "signup.xhtml?status=userExists&faces-redirect=true";
         }
 
         user.setEmail(email);
 
-        if(rawPassword.equals("") || rawPassword==null) return "signup.xhtml?status=verifyError&faces-redirect=true";
+        if (rawPassword.equals("") || rawPassword == null) return "signup.xhtml?status=verifyError&faces-redirect=true";
 
         if (rawPassword.equals(verifyPassword)) {
             logger.info("Password successfully verified!");
             encryptedPassword = new BCryptPasswordEncoder().encode(rawPassword);
             user.setPassword(encryptedPassword);
-        } else{
+        } else {
             logger.warn("Failed verifying password!");
             return "signup.xhtml?status=verifyError&faces-redirect=true";
         }

@@ -1,6 +1,5 @@
 package com.evgeniymakovsky.validators;
 
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +10,9 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Validator for password
+ */
 @FacesValidator("PasswordValidator")
 public class PasswordValidator implements Validator {
 

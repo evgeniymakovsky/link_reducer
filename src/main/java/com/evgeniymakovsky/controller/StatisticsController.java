@@ -13,6 +13,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.util.List;
 
+/**
+ * Class StatisticsController is the main controller for views/statistics.xhtml.
+ */
 @ManagedBean
 @SessionScoped
 @Component

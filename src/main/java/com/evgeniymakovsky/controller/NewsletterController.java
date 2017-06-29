@@ -12,6 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+/**
+ * Class NewsletterController is managed bean for newsletter bar in bottom of pages
+ */
 @ManagedBean
 @ViewScoped
 @Component
@@ -29,6 +32,10 @@ public class NewsletterController {
     private String enteredEmail;
     private SendMailSSL sendMailSSL;
 
+    /**
+     * Method sendNewsletter sends newsletter for user if he enter yours correct email in bottom
+     * of page.
+     */
     public void sendNewsletter() {
         logger.info("Start sendNewsletter()");
         user = userService.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -49,7 +56,7 @@ public class NewsletterController {
                     "\nThis is newsletter!");
             sendMailSSL.sendEmail();
             logger.info("Email has been sent to " + enteredEmail);
-        }else logger.warn("Email has been sent, because userEmail don't match to enteredEmail!");
+        } else logger.warn("Email has been sent, because userEmail don't match to enteredEmail!");
     }
 
     public UserService getUserService() {
