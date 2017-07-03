@@ -4,8 +4,7 @@ import com.evgeniymakovsky.entity.Role;
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.RoleService;
 import com.evgeniymakovsky.service.UserService;
-import com.evgeniymakovsky.utils.SendMailSSL;
-import com.evgeniymakovsky.utils.UsernameChecker;
+import com.evgeniymakovsky.service.SendMailSSLService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,18 +12,18 @@ import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 
 /**
  * Class RegistrationController is the main controller for signup.xhtml.
  */
-@ManagedBean
-@SessionScoped
+@ManagedBean(eager = true)
+@ViewScoped
 @Component
 public class RegistrationController {
 
-    final static Logger logger = Logger.getLogger(RegistrationController.class);
+    final static Logger LOGGER = Logger.getLogger(RegistrationController.class);
 
     @Autowired
     @ManagedProperty("#{UserService}")
@@ -33,6 +32,10 @@ public class RegistrationController {
     @Autowired
     @ManagedProperty("#{RoleService}")
     private RoleService roleService;
+
+    @Autowired
+    @ManagedProperty("#{SendMailSSLService}")
+    private SendMailSSLService sendMailSSLService;
 
     private String username;
     private String email;
@@ -48,15 +51,15 @@ public class RegistrationController {
      * password, status=success if user successfully registered.
      */
     public String registerUser() {
-        logger.info("Start registerUser()");
+        LOGGER.info("Start registerUser()");
         User user = new User();
         List<User> users = userService.userList();
         if (username.equals("") || username == null) return "signup.xhtml?status=nameError&faces-redirect=true";
-        if (!UsernameChecker.checkIfUsernameExists(users, username)) {
+        if (!checkIfUsernameExists(users, username)) {
             user.setName(username);
-            logger.info("Set name " + username);
+            LOGGER.info("Set name " + username);
         } else {
-            logger.warn("User with username " + username + " exists!");
+            LOGGER.warn("User with username " + username + " exists!");
             return "signup.xhtml?status=userExists&faces-redirect=true";
         }
 
@@ -65,11 +68,11 @@ public class RegistrationController {
         if (rawPassword.equals("") || rawPassword == null) return "signup.xhtml?status=verifyError&faces-redirect=true";
 
         if (rawPassword.equals(verifyPassword)) {
-            logger.info("Password successfully verified!");
+            LOGGER.info("Password successfully verified!");
             encryptedPassword = new BCryptPasswordEncoder().encode(rawPassword);
             user.setPassword(encryptedPassword);
         } else {
-            logger.warn("Failed verifying password!");
+            LOGGER.warn("Failed verifying password!");
             return "signup.xhtml?status=verifyError&faces-redirect=true";
         }
 
@@ -80,18 +83,25 @@ public class RegistrationController {
         role.setRole("ROLE_USER");
         role.setUser(user);
         roleService.saveRole(role);
-        logger.info("User " + username + " successfully registered!");
+        LOGGER.info("User " + username + " successfully registered!");
 
-        SendMailSSL sendMailSSL = new SendMailSSL();
-        sendMailSSL.setRecipientMail(email);
+        sendMailSSLService.setRecipientMail(email);
         String subject = "Welcome, " + username;
         String text = "Hello, dear " + username
                 + "\nYour password is: " + rawPassword
                 + "\nYour email is: " + email;
-        sendMailSSL.setSubjectMail(subject);
-        sendMailSSL.setTextMail(text);
-        sendMailSSL.sendEmail();
+        sendMailSSLService.setSubjectMail(subject);
+        sendMailSSLService.setTextMail(text);
+        sendMailSSLService.sendEmail();
         return "signup.xhtml?status=success&faces-redirect=true";
+    }
+
+    public static boolean checkIfUsernameExists(List<User> users, String username) {
+        LOGGER.info("Start checkIfUsernameExists(List<User> users, String username)");
+        for (User user : users) {
+            if (user.getName().equals(username)) return true;
+        }
+        return false;
     }
 
     public UserService getUserService() {

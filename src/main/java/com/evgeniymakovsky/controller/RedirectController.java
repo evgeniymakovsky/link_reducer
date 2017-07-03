@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 public class RedirectController {
 
-    final static Logger logger = Logger.getLogger(RedirectController.class);
+    final static Logger LOGGER = Logger.getLogger(RedirectController.class);
 
     @Autowired
     private LinkService linkService;
@@ -29,7 +29,7 @@ public class RedirectController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String redirection(@PathVariable String id) {
-        logger.info("Request: " + id);
+        LOGGER.info("Request: " + id);
         String redirectToURL = "";
         List<Link> links = linkService.findAll();
         for (Link link : links) {
@@ -39,7 +39,7 @@ public class RedirectController {
                 break;
             }
         }
-        logger.info("Redirect to " + redirectToURL);
+        LOGGER.info("Redirect to " + redirectToURL);
         return "redirect:" + redirectToURL;
     }
 

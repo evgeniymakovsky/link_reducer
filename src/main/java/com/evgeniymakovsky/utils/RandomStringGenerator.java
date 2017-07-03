@@ -6,10 +6,10 @@ import java.util.Random;
 
 public class RandomStringGenerator {
 
-    final static Logger logger = Logger.getLogger(RandomStringGenerator.class);
+    final static Logger LOGGER = Logger.getLogger(RandomStringGenerator.class);
 
     public static String getRandomString(int stringLength) {
-        logger.info("Start getRandomString(int stringLength)");
+        LOGGER.info("Start getRandomString(int stringLength)");
         StringBuffer stringBuffer = new StringBuffer(stringLength);
 
         while (true) {
@@ -20,7 +20,7 @@ public class RandomStringGenerator {
             if (stringBuffer.length() >= stringLength) break;
             stringBuffer.append(c);
         }
-        logger.info("String " + stringBuffer.toString() + " successfully generated!");
+        LOGGER.info("String " + stringBuffer.toString() + " successfully generated!");
         return stringBuffer.toString();
     }
 

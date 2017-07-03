@@ -8,20 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 
 /**
  * Class StatisticsController is the main controller for views/statistics.xhtml.
  */
-@ManagedBean
-@SessionScoped
+@ManagedBean(eager = true)
+@ViewScoped
 @Component
 public class StatisticsController {
 
-    final static Logger logger = Logger.getLogger(StatisticsController.class);
+    final static Logger LOGGER = Logger.getLogger(StatisticsController.class);
 
     @Autowired
     @ManagedProperty("#{UserService}")
@@ -49,7 +50,7 @@ public class StatisticsController {
     public List<Link> getLinks() {
         user = userService.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         links = user.getLinks();
-        logger.info("User " + user.getName() + " obtains links");
+        LOGGER.info("User " + user.getName() + " obtains links");
         return links;
     }
 

@@ -6,20 +6,21 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 
 /**
  * Class AdminController is managed bean for /admin/admin.xhtml view.
  */
-@ManagedBean
-@SessionScoped
+@ManagedBean(eager = true)
+@ViewScoped
 @Component
 public class AdminController {
 
-    final static Logger logger = Logger.getLogger(AdminController.class);
+    final static Logger LOGGER = Logger.getLogger(AdminController.class);
 
     @Autowired
     @ManagedProperty("#{UserService}")
@@ -34,7 +35,7 @@ public class AdminController {
     public void deleteUser(User responsibleUser) {
         userService.removeUser(responsibleUser);
         users = userService.userList();
-        logger.info("User " + responsibleUser.getName() + " deleted!");
+        LOGGER.info("User " + responsibleUser.getName() + " deleted!");
     }
 
     public List<User> getUsers() {

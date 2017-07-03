@@ -2,7 +2,7 @@ package com.evgeniymakovsky.controller;
 
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.UserService;
-import com.evgeniymakovsky.utils.SendMailSSL;
+import com.evgeniymakovsky.service.SendMailSSLService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,48 +15,51 @@ import javax.faces.bean.ViewScoped;
 /**
  * Class NewsletterController is managed bean for newsletter bar in bottom of pages
  */
-@ManagedBean
+@ManagedBean(eager = true)
 @ViewScoped
 @Component
 public class NewsletterController {
 
-    final static Logger logger = Logger.getLogger(NewsletterController.class);
+    final static Logger LOGGER = Logger.getLogger(NewsletterController.class);
 
     @Autowired
     @ManagedProperty("#{UserService}")
     private UserService userService;
 
+    @Autowired
+    @ManagedProperty("#{SendMailSSLService}")
+    private SendMailSSLService sendMailSSLService;
+
     private User user;
     private String username;
     private String userEmail;
     private String enteredEmail;
-    private SendMailSSL sendMailSSL;
 
     /**
      * Method sendNewsletter sends newsletter for user if he enter yours correct email in bottom
      * of page.
      */
     public void sendNewsletter() {
-        logger.info("Start sendNewsletter()");
+        LOGGER.info("Start sendNewsletter()");
         user = userService.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName());
         if (user != null) {
             userEmail = user.getEmail();
             username = user.getName();
-            logger.info("username: " + username);
+            LOGGER.info("username: " + username);
         } else {
-            logger.error("user is null");
+            LOGGER.error("user is null");
             return;
         }
 
         if (userEmail.equals(enteredEmail)) {
-            sendMailSSL = new SendMailSSL();
-            sendMailSSL.setRecipientMail(enteredEmail);
-            sendMailSSL.setSubjectMail("Newsletter from Link Reducer!");
-            sendMailSSL.setTextMail("Hi, dear " + username +
+            sendMailSSLService = new SendMailSSLService();
+            sendMailSSLService.setRecipientMail(enteredEmail);
+            sendMailSSLService.setSubjectMail("Newsletter from Link Reducer!");
+            sendMailSSLService.setTextMail("Hi, dear " + username +
                     "\nThis is newsletter!");
-            sendMailSSL.sendEmail();
-            logger.info("Email has been sent to " + enteredEmail);
-        } else logger.warn("Email has been sent, because userEmail don't match to enteredEmail!");
+            sendMailSSLService.sendEmail();
+            LOGGER.info("Email has been sent to " + enteredEmail);
+        } else LOGGER.warn("Email has been sent, because userEmail don't match to enteredEmail!");
     }
 
     public UserService getUserService() {

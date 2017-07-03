@@ -8,20 +8,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  * Class SettingsController is the main controller for views/settings.xhtml.
  */
 
-@ManagedBean
-@SessionScoped
+@ManagedBean(eager = true)
+@ViewScoped
 @Component
 public class SettingsController {
 
-    final static Logger logger = Logger.getLogger(SettingsController.class);
+    final static Logger LOGGER = Logger.getLogger(SettingsController.class);
 
     @Autowired
     @ManagedProperty("#{UserService}")
@@ -29,7 +30,7 @@ public class SettingsController {
 
     private User user;
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private String oldPassword;
     private String newPassword;
@@ -42,17 +43,17 @@ public class SettingsController {
      * status=error if user entered wrong actual password.
      */
     public String changePassword() {
-        logger.info("Start changePassword()");
+        LOGGER.info("Start changePassword()");
         if (encoder.matches(oldPassword, user.getPassword())) {
             if (newPassword.equals(confirmNewPassword)) {
                 userService.changePassword(user.getName(), encoder.encode(newPassword));
-                logger.info("Password successfully changed!");
+                LOGGER.info("Password successfully changed!");
                 return "/views/settings.xhtml?status=changed&faces-redirect=true";
             }
-            logger.warn("New password don't match with confirmed password!");
+            LOGGER.warn("New password don't match with confirmed password!");
             return "/views/settings.xhtml?status=notMatch&faces-redirect=true";
         }
-        logger.warn("Old password wrong!");
+        LOGGER.warn("Old password wrong!");
         return "/views/settings.xhtml?status=error&faces-redirect=true";
     }
 

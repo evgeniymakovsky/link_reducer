@@ -3,7 +3,8 @@ package com.evgeniymakovsky.controller;
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.UserService;
 import com.evgeniymakovsky.utils.RandomStringGenerator;
-import com.evgeniymakovsky.utils.SendMailSSL;
+import com.evgeniymakovsky.service.SendMailSSLService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -15,14 +16,20 @@ import javax.faces.bean.ViewScoped;
 /**
  * Class ForgetPasswordController is managed bean for forget.xhtml view.
  */
-@ManagedBean
+@ManagedBean(eager = true)
 @ViewScoped
 @Component
 public class ForgetPasswordController {
 
+    final static Logger LOGGER = Logger.getLogger(ForgetPasswordController.class);
+
     @Autowired
     @ManagedProperty("#{UserService}")
     private UserService userService;
+
+    @Autowired
+    @ManagedProperty("#{SendMailSSLService}")
+    private SendMailSSLService sendMailSSLService;
 
     private String username;
     private String email;
@@ -38,25 +45,37 @@ public class ForgetPasswordController {
     public String sendPassword() {
         if (username != null) {
             user = userService.findByUserName(username);
-        } else return "forget.xhtml?status=usernameError&faces-redirect=true";
+        } else{
+            LOGGER.error("User is null");
+            return "forget.xhtml?status=usernameError&faces-redirect=true";
+        }
 
-        if (user == null) return "forget.xhtml?status=noUser&faces-redirect=true";
+        if (user == null){
+            LOGGER.error("No user");
+            return "forget.xhtml?status=noUser&faces-redirect=true";
+        }
 
-        SendMailSSL sendMailSSL = new SendMailSSL();
         String newPassword = RandomStringGenerator.getRandomString(8);
         if (email != null) {
             if (email.equals(user.getEmail())) {
-                sendMailSSL.setRecipientMail(email);
-                sendMailSSL.setSubjectMail("Your new password from Link Reducer!");
-                sendMailSSL.setTextMail("Hello, dear " + username + "!" +
+                sendMailSSLService.setRecipientMail(email);
+                sendMailSSLService.setSubjectMail("Your new password from Link Reducer!");
+                sendMailSSLService.setTextMail("Hello, dear " + username + "!" +
                         "\nYour new password is: " + newPassword);
-                sendMailSSL.sendEmail();
+                sendMailSSLService.sendEmail();
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String encryptedPassword = encoder.encode(newPassword);
                 userService.changePassword(username, encryptedPassword);
+                LOGGER.info("Email sent to " + email);
                 return "forget.xhtml?status=success&faces-redirect=true";
-            } else return "forget.xhtml?status=noEmail&faces-redirect=true";
-        } else return "forget.xhtml?status=emailError&faces-redirect=true";
+            } else{
+                LOGGER.error("Not match email");
+                return "forget.xhtml?status=noEmail&faces-redirect=true";
+            }
+        } else{
+            LOGGER.error("Email is null");
+            return "forget.xhtml?status=emailError&faces-redirect=true";
+        }
     }
 
     public UserService getUserService() {
