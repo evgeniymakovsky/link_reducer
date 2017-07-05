@@ -4,12 +4,21 @@ import org.apache.log4j.Logger;
 
 import java.util.Random;
 
+/**
+ * Class RandomStringGenerator generates String with random characters and digits
+ */
 public class RandomStringGenerator {
 
     final static Logger LOGGER = Logger.getLogger(RandomStringGenerator.class);
 
+    /**
+     * Method getRandomString generates String with random characters in upper, lower case
+     * and digits.
+     *
+     * @param stringLength number of random characters in upper, lower case and digits in String
+     * @return random filled String
+     */
     public static String getRandomString(int stringLength) {
-        LOGGER.info("Start getRandomString(int stringLength)");
         StringBuffer stringBuffer = new StringBuffer(stringLength);
 
         while (true) {
@@ -32,11 +41,5 @@ public class RandomStringGenerator {
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
-    }
-
-    public static void main(String[] args) {
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(getRandomString(5));
-        }
     }
 }

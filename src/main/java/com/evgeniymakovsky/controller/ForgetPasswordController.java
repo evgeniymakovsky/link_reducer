@@ -45,12 +45,12 @@ public class ForgetPasswordController {
     public String sendPassword() {
         if (username != null) {
             user = userService.findByUserName(username);
-        } else{
+        } else {
             LOGGER.error("User is null");
             return "forget.xhtml?status=usernameError&faces-redirect=true";
         }
 
-        if (user == null){
+        if (user == null) {
             LOGGER.error("No user");
             return "forget.xhtml?status=noUser&faces-redirect=true";
         }
@@ -68,11 +68,11 @@ public class ForgetPasswordController {
                 userService.changePassword(username, encryptedPassword);
                 LOGGER.info("Email sent to " + email);
                 return "forget.xhtml?status=success&faces-redirect=true";
-            } else{
+            } else {
                 LOGGER.error("Not match email");
                 return "forget.xhtml?status=noEmail&faces-redirect=true";
             }
-        } else{
+        } else {
             LOGGER.error("Email is null");
             return "forget.xhtml?status=emailError&faces-redirect=true";
         }

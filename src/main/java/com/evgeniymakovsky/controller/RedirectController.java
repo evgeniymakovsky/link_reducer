@@ -24,6 +24,7 @@ public class RedirectController {
 
     /**
      * Method redirect user from shorted link to original link that exists in database.
+     *
      * @param id - shorted link
      * @return to original link
      */

@@ -37,7 +37,8 @@ public class NewsletterController {
 
     /**
      * Method sendNewsletter sends newsletter for user if he enter yours correct email in bottom
-     * of page.
+     * of page. If user isn't authenticate or user email don't match to entered email it throws
+     * IllegalStateException.
      */
     public void sendNewsletter() {
         LOGGER.info("Start sendNewsletter()");
@@ -48,7 +49,7 @@ public class NewsletterController {
             LOGGER.info("username: " + username);
         } else {
             LOGGER.error("user is null");
-            return;
+            throw new IllegalStateException("User not authenticate");
         }
 
         if (userEmail.equals(enteredEmail)) {
@@ -59,7 +60,10 @@ public class NewsletterController {
                     "\nThis is newsletter!");
             sendMailSSLService.sendEmail();
             LOGGER.info("Email has been sent to " + enteredEmail);
-        } else LOGGER.warn("Email has been sent, because userEmail don't match to enteredEmail!");
+        } else {
+            LOGGER.warn("Email hasn't been sent, because userEmail don't match to enteredEmail!");
+            throw new IllegalStateException("Email hasn't been sent, because user email don't match to entered email!");
+        }
     }
 
     public UserService getUserService() {

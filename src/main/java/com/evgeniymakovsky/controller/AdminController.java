@@ -30,7 +30,8 @@ public class AdminController {
 
     /**
      * Method deleteUser invokes when admin delete user from database
-     * @param responsibleUser - user to delete
+     *
+     * @param responsibleUser user to delete
      */
     public void deleteUser(User responsibleUser) {
         userService.removeUser(responsibleUser);
