@@ -20,3 +20,21 @@ CREATE TABLE `link_reducer`.`links` (
   `username` VARCHAR(128) NOT NULL,
   `invocations` INT NOT NULL,
   PRIMARY KEY (`link_id`));
+
+#create admin user
+#username: admin
+#password: 555555
+
+INSERT INTO `link_reducer`.`users` (`username`, `email`, `password`, `enabled`) VALUES ('admin', 'your@mail.com', '$2a$10$Kutiucyz.Nq2KcXadl1rHehMEV7ib85aPqdViq.uNo2PppRLowU.q', '1');
+
+INSERT INTO `link_reducer`.`roles` (`username`, `role`) VALUES ('admin', 'ROLE_ADMIN');
+INSERT INTO `link_reducer`.`roles` (`username`, `role`) VALUES ('admin', 'ROLE_USER');
+
+#create simple user
+#username: user
+#password: 555555
+
+INSERT INTO `link_reducer`.`users` (`username`, `email`, `password`, `enabled`) VALUES ('user', 'your@mail.com', '$2a$10$Kutiucyz.Nq2KcXadl1rHehMEV7ib85aPqdViq.uNo2PppRLowU.q', '1');
+
+INSERT INTO `link_reducer`.`roles` (`username`, `role`) VALUES ('user', 'ROLE_USER');
+

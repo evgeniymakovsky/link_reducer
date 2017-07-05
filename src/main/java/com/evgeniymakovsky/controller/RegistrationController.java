@@ -4,7 +4,7 @@ import com.evgeniymakovsky.entity.Role;
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.RoleService;
 import com.evgeniymakovsky.service.UserService;
-import com.evgeniymakovsky.service.SendMailSSLService;
+import com.evgeniymakovsky.service.SendMailSSLServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,7 +35,7 @@ public class RegistrationController {
 
     @Autowired
     @ManagedProperty("#{SendMailSSLService}")
-    private SendMailSSLService sendMailSSLService;
+    private SendMailSSLServiceImpl sendMailSSLServiceImpl;
 
     private String username;
     private String email;
@@ -85,14 +85,14 @@ public class RegistrationController {
         roleService.saveRole(role);
         LOGGER.info("User " + username + " successfully registered!");
 
-        sendMailSSLService.setRecipientMail(email);
+        sendMailSSLServiceImpl.setRecipientMail(email);
         String subject = "Welcome, " + username;
         String text = "Hello, dear " + username
                 + "\nYour password is: " + rawPassword
                 + "\nYour email is: " + email;
-        sendMailSSLService.setSubjectMail(subject);
-        sendMailSSLService.setTextMail(text);
-        sendMailSSLService.sendEmail();
+        sendMailSSLServiceImpl.setSubjectMail(subject);
+        sendMailSSLServiceImpl.setTextMail(text);
+        sendMailSSLServiceImpl.sendEmail();
         return "signup.xhtml?status=success&faces-redirect=true";
     }
 

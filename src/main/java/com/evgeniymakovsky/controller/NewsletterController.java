@@ -2,7 +2,7 @@ package com.evgeniymakovsky.controller;
 
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.UserService;
-import com.evgeniymakovsky.service.SendMailSSLService;
+import com.evgeniymakovsky.service.SendMailSSLServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +28,7 @@ public class NewsletterController {
 
     @Autowired
     @ManagedProperty("#{SendMailSSLService}")
-    private SendMailSSLService sendMailSSLService;
+    private SendMailSSLServiceImpl sendMailSSLServiceImpl;
 
     private User user;
     private String username;
@@ -53,12 +53,12 @@ public class NewsletterController {
         }
 
         if (userEmail.equals(enteredEmail)) {
-            sendMailSSLService = new SendMailSSLService();
-            sendMailSSLService.setRecipientMail(enteredEmail);
-            sendMailSSLService.setSubjectMail("Newsletter from Link Reducer!");
-            sendMailSSLService.setTextMail("Hi, dear " + username +
+            sendMailSSLServiceImpl = new SendMailSSLServiceImpl();
+            sendMailSSLServiceImpl.setRecipientMail(enteredEmail);
+            sendMailSSLServiceImpl.setSubjectMail("Newsletter from Link Reducer!");
+            sendMailSSLServiceImpl.setTextMail("Hi, dear " + username +
                     "\nThis is newsletter!");
-            sendMailSSLService.sendEmail();
+            sendMailSSLServiceImpl.sendEmail();
             LOGGER.info("Email has been sent to " + enteredEmail);
         } else {
             LOGGER.warn("Email hasn't been sent, because userEmail don't match to enteredEmail!");

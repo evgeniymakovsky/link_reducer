@@ -3,7 +3,7 @@ package com.evgeniymakovsky.controller;
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.UserService;
 import com.evgeniymakovsky.utils.RandomStringGenerator;
-import com.evgeniymakovsky.service.SendMailSSLService;
+import com.evgeniymakovsky.service.SendMailSSLServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,7 +29,7 @@ public class ForgetPasswordController {
 
     @Autowired
     @ManagedProperty("#{SendMailSSLService}")
-    private SendMailSSLService sendMailSSLService;
+    private SendMailSSLServiceImpl sendMailSSLServiceImpl;
 
     private String username;
     private String email;
@@ -58,11 +58,11 @@ public class ForgetPasswordController {
         String newPassword = RandomStringGenerator.getRandomString(8);
         if (email != null) {
             if (email.equals(user.getEmail())) {
-                sendMailSSLService.setRecipientMail(email);
-                sendMailSSLService.setSubjectMail("Your new password from Link Reducer!");
-                sendMailSSLService.setTextMail("Hello, dear " + username + "!" +
+                sendMailSSLServiceImpl.setRecipientMail(email);
+                sendMailSSLServiceImpl.setSubjectMail("Your new password from Link Reducer!");
+                sendMailSSLServiceImpl.setTextMail("Hello, dear " + username + "!" +
                         "\nYour new password is: " + newPassword);
-                sendMailSSLService.sendEmail();
+                sendMailSSLServiceImpl.sendEmail();
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String encryptedPassword = encoder.encode(newPassword);
                 userService.changePassword(username, encryptedPassword);
