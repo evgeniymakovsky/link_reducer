@@ -14,6 +14,8 @@ create SQL schema with 3 tables like in DATABASE.txt file, add 2 users (admin an
 and deploy it on Tomcat 8 servlet container. Please note, that you have to override your mail server
 in SendMailSSLService!
 
+UPDATE: Link Reducer now available on PostgreSQL! Please check DATABASE.TXT file and use last commit
+
 Screenshots of Link Reducer:
 
 Login page:

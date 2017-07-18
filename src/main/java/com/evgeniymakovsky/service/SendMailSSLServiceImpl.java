@@ -18,7 +18,7 @@ public class SendMailSSLServiceImpl {
     final static Logger LOGGER = Logger.getLogger(SendMailSSLServiceImpl.class);
 
     private final static String APP_MAIL = "evgeniymakovsky@gmail.com";
-    private final static String APP_MAIL_PASSWORD = "13584213qwe";
+    private final static String APP_MAIL_PASSWORD = "password";
     private String recipientMail;
     private String subjectMail;
     private String textMail;

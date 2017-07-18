@@ -1,7 +1,5 @@
 package com.evgeniymakovsky.entity;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;

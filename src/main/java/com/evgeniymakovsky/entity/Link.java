@@ -2,14 +2,12 @@ package com.evgeniymakovsky.entity;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Entity
 @Table(name = "links")
 public class Link {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "link_id",
             unique = true, nullable = false)
     private Integer link_id;

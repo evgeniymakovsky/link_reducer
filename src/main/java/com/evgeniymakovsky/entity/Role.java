@@ -2,14 +2,12 @@ package com.evgeniymakovsky.entity;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Entity
 @Table(name = "roles")
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "role_id",
             unique = true, nullable = false)
     private Integer role_id;

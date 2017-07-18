@@ -1,3 +1,4 @@
+MySQL:
 CREATE SCHEMA `link_reducer` DEFAULT CHARACTER SET utf8 ;
 
 CREATE TABLE `link_reducer`.`users` (
@@ -38,3 +39,46 @@ INSERT INTO `link_reducer`.`users` (`username`, `email`, `password`, `enabled`) 
 
 INSERT INTO `link_reducer`.`roles` (`username`, `role`) VALUES ('user', 'ROLE_USER');
 
+PostgreSQL:
+    CREATE TABLE "users" (
+    "username" varchar(128) NOT NULL,
+    "email" varchar(128) NOT NULL,
+    "password" varchar(128) NOT NULL,
+    "enabled" varchar(128) NOT NULL,
+    CONSTRAINT users_pk PRIMARY KEY ("username")
+    ) WITH (
+    OIDS=FALSE
+    );
+
+    CREATE TABLE "roles" (
+    "role_id" serial NOT NULL,
+    "username" varchar(128) NOT NULL,
+    "role" varchar(45) NOT NULL,
+    CONSTRAINT roles_pk PRIMARY KEY ("role_id")
+    ) WITH (
+    OIDS=FALSE
+    );
+
+    CREATE TABLE "links" (
+    "link_id" serial NOT NULL,
+    "shorted" varchar(128) NOT NULL,
+    "original" varchar(128) NOT NULL,
+    "username" varchar(128) NOT NULL,
+    "invocations" integer NOT NULL,
+    CONSTRAINT links_pk PRIMARY KEY ("link_id")
+    ) WITH (
+    OIDS=FALSE
+    );
+
+#create admin user
+#username: admin
+#password: 555555
+INSERT INTO public.users (username, email, enabled, password) VALUES ('admin', 'your@mail.com', true, '$2a$10$GK86UltwL0Xs7tJUFWtYs.HqAksbQD40H9QHDiY7wXx.ojNEYT.G2');
+INSERT INTO public.roles (role_id, role, username) VALUES (1, 'ROLE_USER', 'admin');
+INSERT INTO public.roles (role_id, role, username) VALUES (2, 'ROLE_ADMIN', 'admin');
+
+#create simple user
+#username: user
+#password: 555555
+INSERT INTO public.users (username, email, enabled, password) VALUES ('user', 'your@mail.com', true, '$2a$10$joqn3P.BC96g8pjSmi6Bie0zqMOPFJPWposL.fLDfTDLTdy6XbVHq');
+INSERT INTO public.roles (role_id, role, username) VALUES (3, 'ROLE_USER', 'user');
