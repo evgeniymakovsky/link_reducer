@@ -6,8 +6,9 @@ In this application I used next technologies:<br/>
     - Spring Data;<br/>
     - Spring Security;<br/>
     - Spring MVC;<br/>
-    - MySQL database;<br/>
+    - MySQL or PostgreSQL database;<br/>
     - Tomcat 8 servlet container;<br/>
+    - JavaMail API;<br/>
     
 If you want to run my project, you have to download it, import like MAVEN project,
 create SQL schema with 3 tables like in DATABASE.txt file, add 2 users (admin and simple user) like in DATABASE.txt file

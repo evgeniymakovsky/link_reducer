@@ -41,33 +41,24 @@ INSERT INTO `link_reducer`.`roles` (`username`, `role`) VALUES ('user', 'ROLE_US
 
 PostgreSQL:
     CREATE TABLE "users" (
-    "username" varchar(128) NOT NULL,
+    "username" varchar(128) PRIMARY KEY,
     "email" varchar(128) NOT NULL,
     "password" varchar(128) NOT NULL,
-    "enabled" varchar(128) NOT NULL,
-    CONSTRAINT users_pk PRIMARY KEY ("username")
-    ) WITH (
-    OIDS=FALSE
+    "enabled" varchar(128) NOT NULL
     );
 
     CREATE TABLE "roles" (
-    "role_id" serial NOT NULL,
+    "role_id" SERIAL PRIMARY KEY,
     "username" varchar(128) NOT NULL,
-    "role" varchar(45) NOT NULL,
-    CONSTRAINT roles_pk PRIMARY KEY ("role_id")
-    ) WITH (
-    OIDS=FALSE
+    "role" varchar(45) NOT NULL
     );
 
     CREATE TABLE "links" (
-    "link_id" serial NOT NULL,
+    "link_id" SERIAL PRIMARY KEY,
     "shorted" varchar(128) NOT NULL,
     "original" varchar(128) NOT NULL,
     "username" varchar(128) NOT NULL,
-    "invocations" integer NOT NULL,
-    CONSTRAINT links_pk PRIMARY KEY ("link_id")
-    ) WITH (
-    OIDS=FALSE
+    "invocations" integer NOT NULL
     );
 
 #create admin user

@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Link {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "link_id",
             unique = true, nullable = false)
     private Integer link_id;

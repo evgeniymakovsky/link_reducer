@@ -1,0 +1,150 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core">
+
+<h:head>
+    <title>Forget Password</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <h:outputScript type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+        }, false);
+        function hideURLbar() {
+        window.scrollTo(0, 1);
+        } </h:outputScript>
+
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputStylesheet name="css/bootstrap.css"/>
+    <h:outputStylesheet name="css/font-awesome.min.css"/>
+    <h:outputScript name="js/jquery-2.1.4.min.js"/>
+    <link href="//fonts.googleapis.com/css?family=Varela+Round&amp;subset=hebrew" rel="stylesheet"/>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+          rel='stylesheet' type='text/css'/>
+</h:head>
+<h:body>
+    <!-- banner1 -->
+    <div class="banner1">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <div class="navbar-header navbar-left">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h1><a class="navbar-brand" href="views/welcome.xhtml">Link Reducer</a></h1>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+                    <nav class="cl-effect-13" id="cl-effect-13">
+                        <ul class="nav navbar-nav">
+                            <li><a href="login.xhtml">Log in</a></li>
+                            <li><a href="signup.xhtml">Sign up</a></li>
+                            <li class="active"><a href="forget.xhtml">Forget password</a></li>
+                        </ul>
+
+                    </nav>
+                </div>
+            </nav>
+
+        </div>
+    </div>
+
+    <script src="js/bootstrap.js"></script>
+    <!-- //for bootstrap working -->
+    <div class="agileits-con">
+        <div class="container">
+            <h2 class="w3ls_head">Forget password</h2>
+            <div class="col-md-8 contact-grids1 animated wow fadeInRight" data-wow-delay=".5s">
+                <h:form>
+                    <div class="contact-form2">
+                        <h4>Username</h4>
+
+                        <h:inputText value="${forgetPasswordController.username}"/><br/>
+
+                    </div>
+                    <div class="contact-form2">
+                        <h4>Email</h4>
+
+                        <h:inputText value="${forgetPasswordController.email}"/><br/>
+
+                    </div>
+
+                    <h:commandButton action="${forgetPasswordController.sendPassword()}" value="Submit"/>
+                </h:form>
+                <h3><c:if test="${param.status=='usernameError'}">
+                    <label style="color: red">Please, enter your username!</label>
+                </c:if>
+                <c:if test="${param.status=='noUser'}">
+                    <label style="color: red">There is no user with this username!</label>
+                </c:if>
+                <c:if test="${param.status=='noEmail'}">
+                    <label style="color: red">Wrong email!</label>
+                </c:if>
+                <c:if test="${param.status=='emailError'}">
+                    <label style="color: red">Please, enter your email!</label>
+                </c:if>
+                <c:if test="${param.status=='success'}">
+                    <label style="color: green">Password has been successfully sent!</label>
+                </c:if></h3>
+            </div>
+        </div>
+    </div>
+    <div class="footer-top">
+        <div class="container">
+            <div class="col-md-3 w3ls-footer-top">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="/views/welcome.xhtml">Home</a></li>
+                    <li><a href="/views/about.xhtml">About</a></li>
+                    <li><a href="/views/settings.xhtml">Settings</a></li>
+                    <li><a href="/views/statistics.xhtml">User statistics</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 wthree-footer-top">
+                <h3>SUPPORT</h3>
+                <ul>
+                    <li><span class="glyphicon glyphicon-home"
+                              aria-hidden="true"></span> Limozha Street, Grodno City, Belarus.
+                    </li>
+                    <li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><a
+                            href="mailto:evgeniymakovsky@gmail.com">evgeniymakovsky@gmail.com</a></li>
+                    <li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> +375 (29) 585 66 06</li>
+                </ul>
+            </div>
+            <div class="col-md-5 w3l-footer-top">
+                <h3>NEWSLETTER</h3>
+                <p>If you want to get our news, please enter your email below and we will send you newsletter!</p>
+
+                <h:form method="post" class="newsletter">
+                    <h:inputText class="email" type="email" placeholder="Your email..."
+                                 value="${newsletterController.enteredEmail}"/>
+                    <h:commandButton class="submit" value="GO" action="${newsletterController.sendNewsletter()}"/>
+                </h:form>
+            </div>
+            <div class="clearfix"></div>
+            <div class="footer-w3layouts">
+                <div class="agile-copy">
+                    <p>2017 Designed by E. Makovsky for *instinctools</p>
+                </div>
+                <div class="agileits-social">
+                    <ul>
+                        <li><a href="https://www.facebook.com/evgeniy.makovsky.10"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="https://vk.com/evgeniymakovsky"><i class="fa fa-vk"></i></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

@@ -60,7 +60,7 @@ public class WelcomeController {
 
         if (existedShortedLink != null) {
             LOGGER.info("Link " + existedShortedLink + " exists in database!");
-            reducedURL = "localhost:8085/" + existedShortedLink;
+            reducedURL = "localhost:8080/" + existedShortedLink;
             return reducedURL;
         }
 
@@ -71,7 +71,7 @@ public class WelcomeController {
             uri = RandomStringGenerator.getRandomString(6);
         }
 
-        reducedURL = "localhost:8085/" + uri;
+        reducedURL = "localhost:8080/" + uri;
         Link link = new Link();
         link.setOriginal(originalURL);
         link.setShorted(uri);
