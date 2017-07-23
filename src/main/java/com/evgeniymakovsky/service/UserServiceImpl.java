@@ -2,13 +2,12 @@ package com.evgeniymakovsky.service;
 
 import com.evgeniymakovsky.entity.Link;
 import com.evgeniymakovsky.entity.User;
-
-import java.util.List;
-
 import com.evgeniymakovsky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service("UserService")
 @Transactional

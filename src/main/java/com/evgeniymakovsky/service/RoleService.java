@@ -1,6 +1,5 @@
 package com.evgeniymakovsky.service;
 
-
 import com.evgeniymakovsky.entity.Role;
 
 public interface RoleService {

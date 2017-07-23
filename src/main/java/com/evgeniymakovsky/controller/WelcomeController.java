@@ -4,6 +4,7 @@ import com.evgeniymakovsky.entity.Link;
 import com.evgeniymakovsky.entity.User;
 import com.evgeniymakovsky.service.LinkService;
 import com.evgeniymakovsky.service.UserService;
+import com.evgeniymakovsky.utils.RandomStringGenerator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,9 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-
-import com.evgeniymakovsky.utils.RandomStringGenerator;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

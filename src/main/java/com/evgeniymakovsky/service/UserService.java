@@ -2,6 +2,7 @@ package com.evgeniymakovsky.service;
 
 import com.evgeniymakovsky.entity.Link;
 import com.evgeniymakovsky.entity.User;
+
 import java.util.List;
 
 public interface UserService {

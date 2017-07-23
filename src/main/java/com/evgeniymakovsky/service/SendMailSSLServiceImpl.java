@@ -3,14 +3,10 @@ package com.evgeniymakovsky.service;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 @Service("SendMailSSLService")
 public class SendMailSSLServiceImpl {

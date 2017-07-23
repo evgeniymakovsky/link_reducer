@@ -1,8 +1,8 @@
 package com.evgeniymakovsky.controller;
 
 import com.evgeniymakovsky.entity.User;
-import com.evgeniymakovsky.service.UserService;
 import com.evgeniymakovsky.service.SendMailSSLServiceImpl;
+import com.evgeniymakovsky.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
